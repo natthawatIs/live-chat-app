@@ -16,6 +16,14 @@ const MessageInput = () => {
       return;
     }
 
+    const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+    if (file.size > maxSize) {
+      toast.error(
+        "The file is too large. Please select an image smaller than 2MB."
+      );
+      return;
+    }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result);
@@ -93,7 +101,7 @@ const MessageInput = () => {
         </div>
         <button
           type="submit"
-          className="btn btn-sm btn-circle"
+          className="btn btn-primary h-10 min-h-0"
           disabled={!text.trim() && !imagePreview}
         >
           <Send size={22} />

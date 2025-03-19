@@ -89,20 +89,37 @@ export const updateProfile = async (req, res) => {
     const userId = req.user._id;
 
     if (!profilePic) {
-      res.status(400).json({ message: "Profile pic is required" });
+      return res.status(400).json({ message: "Profile pic is required" });
     }
 
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    const imageBuffer = Buffer.from(profilePic.split(",")[1], "base64");
+    if (imageBuffer.length > maxSize) {
+      return res.status(413).json({ message: "File size exceeds 2MB" }); // Status 413 for payload too large
+    }
+
+    // Upload image to Cloudinary
     const uploadResponse = await cloudinary.uploader.upload(profilePic);
+
+    // Update user profile with new image URL
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { profilePic: uploadResponse.secure_url },
       { new: true }
     );
 
-    res.status(200).json(updatedUser);
+    return res.status(200).json(updatedUser); // Send updated user data
   } catch (error) {
-    console.log("Error in login controller", error.message);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error in updating profile:", error.message);
+
+    // Handle specific error types
+    if (error.message.includes("PayloadTooLargeError")) {
+      return res
+        .status(413)
+        .json({ message: "File size exceeds the maximum allowed size." });
+    }
+
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
