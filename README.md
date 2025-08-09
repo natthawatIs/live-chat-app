@@ -1,4 +1,4 @@
-# Fullstack Chat App  
+# Live Chat App  
 
 A fullstack chat application built with **React, Express, MongoDB, and Socket.io**. This project includes a **backend** (Node.js with Express) and a **frontend** (React with Vite).  
 
