@@ -1,6 +1,6 @@
 # Live Chat App  
 
-A fullstack chat application built with **React, Express, MongoDB, and Socket.io**. This project includes a **backend** (Node.js with Express) and a **frontend** (React with Vite).  
+A live chat application built with **React, Express, MongoDB, and Socket.io**. This project includes a **backend** (Node.js with Express) and a **frontend** (React with Vite).  
 
 ## 🚀 Live Demo  
 [Click here to try the app](https://fullstack-chat-app-t3vl.onrender.com)  
